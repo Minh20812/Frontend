@@ -8,20 +8,18 @@ const AuthSuccess = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const userInfoParam = params.get("userInfo");
+    const query = new URLSearchParams(window.location.search);
+    const userInfoEncoded = query.get("userInfo");
 
-    if (userInfoParam) {
+    if (userInfoEncoded) {
       try {
-        const userInfo = JSON.parse(decodeURIComponent(userInfoParam));
+        // Giải mã dữ liệu từ URL
+        const userInfo = JSON.parse(decodeURIComponent(userInfoEncoded));
 
-        // Lưu thông tin người dùng vào Redux store
         dispatch(setCredentials({ userInfo }));
-
-        // Chuyển hướng người dùng đến trang chính
         navigate("/");
       } catch (error) {
-        console.error("Error processing authentication:", error);
+        console.error("Lỗi giải mã userInfo:", error);
         navigate("/");
       }
     } else {
