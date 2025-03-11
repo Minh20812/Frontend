@@ -51,7 +51,9 @@ export default function SocialLoginSection() {
 
   const signInWithGoogle = () => {
     // Không cần lưu redirect path nếu xử lý thông qua trang AuthSuccess
-    window.location.href = "http://localhost:5000/api/users/auth/google";
+    window.location.href =
+      "https://kanbantask-fxzv.onrender.com/api/users/auth/google";
+    // window.location.href = "http://localhost:5000/api/users/auth/google";
   };
 
   return (
