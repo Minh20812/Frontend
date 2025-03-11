@@ -1,9 +1,57 @@
 import { Button } from "@/components/ui/button";
 import { GithubIcon } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { setCredentials } from "@/redux/feature/authSlice";
 
 export default function SocialLoginSection() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+
+  // Hàm xử lý đăng nhập Google
+  // const signInWithGoogle = () => {
+  //   // Lưu đường dẫn redirect vào localStorage để sử dụng sau khi Google callback
+  //   localStorage.setItem("redirectPath", redirect);
+
+  //   // Chuyển hướng đến endpoint auth Google của backend
+  //   window.location.href = "http://localhost:5000/api/users/auth/google";
+  // };
+
+  // // Xử lý callback từ Google
+  // useEffect(() => {
+  //   // Kiểm tra nếu URL hiện tại chứa token hoặc thông tin user từ Google callback
+  //   const params = new URLSearchParams(window.location.search);
+  //   const token = params.get("token");
+  //   const userData = params.get("userData");
+
+  //   if (token && userData) {
+  //     try {
+  //       // Parse thông tin người dùng
+  //       const userInfo = JSON.parse(decodeURIComponent(userData));
+
+  //       // Lưu thông tin đăng nhập vào Redux store
+  //       dispatch(setCredentials({ token, userInfo }));
+
+  //       // Lấy đường dẫn redirect từ localStorage
+  //       const savedRedirect = localStorage.getItem("redirectPath") || "/";
+  //       localStorage.removeItem("redirectPath"); // Xóa sau khi sử dụng
+
+  //       // Chuyển hướng người dùng
+  //       navigate(savedRedirect);
+  //     } catch (error) {
+  //       console.error("Error processing Google login:", error);
+  //     }
+  //   }
+  // }, [dispatch, navigate]);
+
   const signInWithGoogle = () => {
-    window.open("http://localhost:5000/auth/google/callback", "_self");
+    // Không cần lưu redirect path nếu xử lý thông qua trang AuthSuccess
+    window.location.href = "http://localhost:5000/api/users/auth/google";
   };
 
   return (

@@ -16,8 +16,7 @@ const Router = () => {
   };
 
   const { userInfo } = useSelector((state) => state.auth);
-  // console.log("Router userInfo:", userInfo); // Debug
-``
+  console.log("Router userInfo:", userInfo); // Debug
   const isValidUser = userInfo && !userInfo.error;
 
   return (
