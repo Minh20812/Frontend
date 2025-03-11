@@ -5,6 +5,7 @@ import { CheckCircle, Layout, Menu, Users2, Workflow, X } from "lucide-react";
 import AuthRouter from "./AuthRouter";
 import MainRouter from "./MainRouter";
 import { useSelector } from "react-redux";
+import { KanbanBoard } from "@/components/kanban/KanbanBoard";
 
 const Router = () => {
   const [showAuth, setShowAuth] = useState(false);
@@ -15,10 +16,13 @@ const Router = () => {
   };
 
   const { userInfo } = useSelector((state) => state.auth);
+  // console.log("Router userInfo:", userInfo); // Debug
+``
+  const isValidUser = userInfo && !userInfo.error;
 
   return (
     <>
-      {!userInfo ? (
+      {!isValidUser ? (
         <div className="min-h-screen bg-gradient-to-b from-background to-muted px-4 md:px-6">
           {/* Navigation */}
           <nav className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -261,7 +265,7 @@ const Router = () => {
           {showAuth && <AuthRouter onClose={handleCloseAuth} />}
         </div>
       ) : (
-        <MainRouter />
+        <KanbanBoard />
       )}
     </>
   );

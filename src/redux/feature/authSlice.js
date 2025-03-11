@@ -2,18 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userInfo: (() => {
-    const userInfo = localStorage.getItem("userInfo");
-    const expirationTime = localStorage.getItem("expirationTime");
+    try {
+      const userInfo = localStorage.getItem("userInfo");
+      const expirationTime = localStorage.getItem("expirationTime");
 
-    if (userInfo && expirationTime) {
-      const now = new Date().getTime();
-      if (now > Number(expirationTime)) {
-        localStorage.clear();
-        return null;
+      if (userInfo && expirationTime) {
+        const now = new Date().getTime();
+        if (now > Number(expirationTime)) {
+          // Token hết hạn, xóa dữ liệu
+          localStorage.removeItem("userInfo");
+          localStorage.removeItem("expirationTime");
+          return null;
+        }
+        return JSON.parse(userInfo);
       }
-      return JSON.parse(userInfo);
+      return null;
+    } catch (error) {
+      console.error("Error parsing userInfo from localStorage:", error);
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("expirationTime");
+      return null;
     }
-    return null;
   })(),
 };
 
@@ -30,7 +39,8 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.userInfo = null;
-      localStorage.clear();
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("expirationTime");
     },
   },
 });

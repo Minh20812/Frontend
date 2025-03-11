@@ -16,24 +16,29 @@ const LoginForm = ({ isLoading, onForgotPassword }) => {
 
   const [login, { isLoginLoading }] = useLoginMutation();
 
-  // const userInfo = useSelector((state) => state.auth.userInfo);
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate(redirect);
-  //   }
-  // }, [navigate, userInfo, redirect]);
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, userInfo, redirect]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       const res = await login({ email, password });
+      // if (res?.error || !res?.userInfo) {
+      //   // Kiểm tra phản hồi từ API
+      //   throw new Error(res?.error || "Invalid credentials");
+      // }
       console.log(res);
       dispatch(setCredentials({ ...res }));
+      // dispatch(setCredentials(res));
       navigate(redirect);
     } catch (error) {
       console.error;
