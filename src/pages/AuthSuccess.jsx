@@ -8,23 +8,30 @@ const AuthSuccess = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const userInfoEncoded = query.get("userInfo");
-
-    if (userInfoEncoded) {
+    const fetchUser = async () => {
       try {
-        // Giải mã dữ liệu từ URL
-        const userInfo = JSON.parse(decodeURIComponent(userInfoEncoded));
+        const response = await fetch(
+          "https://kanbantask-fxzv.onrender.com/api/users/auth/google/callback",
+          {
+            credentials: "include",
+          }
+        );
+        const data = await response.json();
 
-        dispatch(setCredentials({ userInfo }));
-        navigate("/");
+        if (data.userInfo) {
+          dispatch(setCredentials({ userInfo: data.userInfo }));
+          navigate("/");
+        } else {
+          console.error("Google login failed:", data);
+          navigate("/");
+        }
       } catch (error) {
-        console.error("Lỗi giải mã userInfo:", error);
+        console.error("Error fetching user:", error);
         navigate("/");
       }
-    } else {
-      navigate("/");
-    }
+    };
+
+    fetchUser();
   }, [dispatch, navigate]);
 
   return <div>Đang xử lý đăng nhập...</div>;
