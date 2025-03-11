@@ -11,20 +11,22 @@ const AuthSuccess = () => {
     const fetchUser = async () => {
       try {
         const response = await fetch(
-          "https://kanbantask-fxzv.onrender.com/api/users/auth/google/callback",
+          "https://kanbantask-fxzv.onrender.com/api/users/auth/login/success",
           { credentials: "include" }
         );
         const data = await response.json();
 
         if (data.userInfo) {
           dispatch(setCredentials({ userInfo: data.userInfo }));
+          navigate("/"); // Chuyển hướng ngay khi có userInfo
         } else {
           console.error("Google login failed:", data);
+          navigate("/"); // Dù thất bại vẫn quay về "/"
         }
       } catch (error) {
         console.error("Error fetching user:", error);
+        navigate("/"); // Nếu lỗi cũng quay về "/"
       }
-      navigate("/"); // Dù thành công hay thất bại, vẫn quay về trang "/"
     };
 
     fetchUser();
