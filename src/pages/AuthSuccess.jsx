@@ -22,12 +22,15 @@ const AuthSuccess = () => {
           "https://kanbantask-fxzv.onrender.com/api/users/auth/login/success",
           { credentials: "include" }
         );
+        console.log("Response status:", response.status);
         const data = await response.json();
-        console.log("Received user data:", data);
+        console.log("API Response data:", data);
 
         if (data.userInfo) {
-          dispatch(setCredentials({ userInfo: data.userInfo }));
-          navigate("/"); // Chuyển hướng về trang chính sau khi lưu thông tin user
+          console.log("Dispatching user data to Redux:", data.userInfo);
+          ss;
+          dispatch(setCredentials(data.userInfo)); // Chỉ truyền data.userInfo, không lồng thêm
+          navigate("/");
         } else {
           console.error("Google login failed:", data);
           navigate("/");

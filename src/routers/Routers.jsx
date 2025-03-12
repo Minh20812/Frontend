@@ -14,10 +14,39 @@ const Router = () => {
     setShowAuth(false);
   };
 
-  const { userInfo } = useSelector((state) => state.auth);
-  console.log("Router userInfo:", userInfo); // Debug
-  const isValidUser = userInfo && userInfo._id;
-  // const isValidUser = userInfo && !userInfo.error;
+  const { userInfo } = useSelector((state) => {
+    console.log("Complete auth state:", state.auth);
+    return state.auth;
+  });
+
+  console.log("userInfo in Router:", userInfo);
+
+  // Kiểm tra chi tiết hơn
+  const isValidUser = (() => {
+    if (!userInfo) {
+      console.log("No userInfo found");
+      return false;
+    }
+
+    console.log("userInfo structure:", JSON.stringify(userInfo));
+
+    // Kiểm tra nếu userInfo có thể là nested object
+    if (userInfo.userInfo && userInfo.userInfo._id) {
+      console.log("Nested userInfo structure detected");
+      return true;
+    }
+
+    // Kiểm tra cấu trúc flat
+    if (userInfo._id) {
+      console.log("Flat userInfo structure with _id detected");
+      return true;
+    }
+
+    console.log("Invalid userInfo structure");
+    return false;
+  })();
+
+  console.log("isValidUser result:", isValidUser);
 
   return (
     <>
