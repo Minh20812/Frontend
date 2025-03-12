@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CheckCircle, Layout, Menu, Users2, Workflow, X } from "lucide-react";
 import AuthRouter from "./AuthRouter";
-import MainRouter from "./MainRouter";
 import { useSelector } from "react-redux";
 import { KanbanBoard } from "@/components/kanban/KanbanBoard";
 
@@ -17,7 +16,8 @@ const Router = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
   console.log("Router userInfo:", userInfo); // Debug
-  const isValidUser = userInfo && !userInfo.error;
+  const isValidUser = userInfo && userInfo._id;
+  // const isValidUser = userInfo && !userInfo.error;
 
   return (
     <>

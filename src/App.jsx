@@ -10,7 +10,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Routers />} />
-          <Route path="/" element={<AuthSuccess />} />
+          <Route path="/auth/success" element={<AuthSuccess />} />
         </Routes>
       </BrowserRouter>
     </>
