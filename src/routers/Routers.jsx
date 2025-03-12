@@ -30,15 +30,21 @@ const Router = () => {
 
     console.log("userInfo structure:", JSON.stringify(userInfo));
 
+    // Kiểm tra các cấu trúc dữ liệu có thể nhận được
+    if (userInfo._id) {
+      console.log("Flat userInfo structure with _id detected");
+      return true;
+    }
+
     // Kiểm tra nếu userInfo có thể là nested object
     if (userInfo.userInfo && userInfo.userInfo._id) {
       console.log("Nested userInfo structure detected");
       return true;
     }
 
-    // Kiểm tra cấu trúc flat
-    if (userInfo._id) {
-      console.log("Flat userInfo structure with _id detected");
+    // Thêm kiểm tra cho cấu trúc data từ API endpoint "/api/users/me"
+    if (userInfo.email || userInfo.name) {
+      console.log("User info with email/name detected");
       return true;
     }
 

@@ -26,16 +26,44 @@ const initialState = {
   })(),
 };
 
+// const authSlice = createSlice({
+//   name: "auth",
+//   initialState,
+//   reducers: {
+//     setCredentials: (state, action) => {
+//       state.userInfo = action.payload;
+//       localStorage.setItem("userInfo", JSON.stringify(action.payload));
+
+//       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
+//       localStorage.setItem("expirationTime", expirationTime);
+//     },
+//     logout: (state) => {
+//       state.userInfo = null;
+//       localStorage.removeItem("userInfo");
+//       localStorage.removeItem("expirationTime");
+//     },
+//   },
+// });
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      state.userInfo = action.payload;
-      localStorage.setItem("userInfo", JSON.stringify(action.payload));
+      // Xử lý các cấu trúc dữ liệu khác nhau có thể nhận được
+      let userInfo;
 
+      if (action.payload.userInfo) {
+        // Nếu payload đã có cấu trúc { userInfo: {...} }
+        userInfo = action.payload.userInfo;
+      } else {
+        // Nếu payload là thông tin người dùng trực tiếp
+        userInfo = action.payload;
+      }
+
+      state.userInfo = userInfo;
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
-      localStorage.setItem("expirationTime", expirationTime);
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
     },
     logout: (state) => {
       state.userInfo = null;

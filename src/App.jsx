@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import AuthSuccess from "./pages/AuthSuccess";
 import GoogleCallback from "./pages/GoogleCallback.jsx";
+import OAuthRedirect from "./pages/OAuthRedirect ";
 
 const App = () => {
   return (
@@ -14,8 +15,9 @@ const App = () => {
           <Route path="/auth/success" element={<AuthSuccess />} />
           <Route
             path="/api/users/auth/google/callback"
-            element={<GoogleCallback />}
+            element={<OAuthRedirect />}
           />
+          <Route path="/google/callback" element={<GoogleCallback />} />
         </Routes>
       </BrowserRouter>
     </>
