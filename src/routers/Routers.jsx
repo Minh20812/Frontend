@@ -56,7 +56,7 @@ const Router = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const isValidUser = userInfo && userInfo._id;
+  const isValidUser = userInfo && !userInfo.error;
 
   return (
     <>
