@@ -14,45 +14,49 @@ const Router = () => {
     setShowAuth(false);
   };
 
-  const { userInfo } = useSelector((state) => {
-    console.log("Complete auth state:", state.auth);
-    return state.auth;
-  });
+  // const { userInfo } = useSelector((state) => {
+  //   console.log("Complete auth state:", state.auth);
+  //   return state.auth;
+  // });
 
-  console.log("userInfo in Router:", userInfo);
+  // console.log("userInfo in Router:", userInfo);
 
   // Kiểm tra chi tiết hơn
-  const isValidUser = (() => {
-    if (!userInfo) {
-      console.log("No userInfo found");
-      return false;
-    }
+  // const isValidUser = (() => {
+  //   if (!userInfo) {
+  //     console.log("No userInfo found");
+  //     return false;
+  //   }
 
-    console.log("userInfo structure:", JSON.stringify(userInfo));
+  //   console.log("userInfo structure:", JSON.stringify(userInfo));
 
-    // Kiểm tra các cấu trúc dữ liệu có thể nhận được
-    if (userInfo._id) {
-      console.log("Flat userInfo structure with _id detected");
-      return true;
-    }
+  //   // Kiểm tra các cấu trúc dữ liệu có thể nhận được
+  //   if (userInfo._id) {
+  //     console.log("Flat userInfo structure with _id detected");
+  //     return true;
+  //   }
 
-    // Kiểm tra nếu userInfo có thể là nested object
-    if (userInfo.userInfo && userInfo.userInfo._id) {
-      console.log("Nested userInfo structure detected");
-      return true;
-    }
+  //   // Kiểm tra nếu userInfo có thể là nested object
+  //   if (userInfo.userInfo && userInfo.userInfo._id) {
+  //     console.log("Nested userInfo structure detected");
+  //     return true;
+  //   }
 
-    // Thêm kiểm tra cho cấu trúc data từ API endpoint "/api/users/me"
-    if (userInfo.email || userInfo.name) {
-      console.log("User info with email/name detected");
-      return true;
-    }
+  //   // Thêm kiểm tra cho cấu trúc data từ API endpoint "/api/users/me"
+  //   if (userInfo.email || userInfo.name) {
+  //     console.log("User info with email/name detected");
+  //     return true;
+  //   }
 
-    console.log("Invalid userInfo structure");
-    return false;
-  })();
+  //   console.log("Invalid userInfo structure");
+  //   return false;
+  // })();
 
-  console.log("isValidUser result:", isValidUser);
+  // console.log("isValidUser result:", isValidUser);
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const isValidUser = userInfo && userInfo._id;
 
   return (
     <>
