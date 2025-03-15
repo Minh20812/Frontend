@@ -54,9 +54,44 @@ const Router = () => {
 
   // console.log("isValidUser result:", isValidUser);
 
-  const { userInfo } = useSelector((state) => state.auth);
+  // const { userInfo } = useSelector((state) => state.auth);
 
-  const isValidUser = userInfo && !userInfo.error;
+  // const isValidUser = userInfo && !userInfo.error;
+
+  // Add this near the top of your Router component to debug auth state
+  const { userInfo } = useSelector((state) => {
+    console.log("Complete auth state:", state.auth);
+    return state.auth;
+  });
+
+  // More detailed validation of the user info
+  const isValidUser = (() => {
+    console.log("Checking user auth status - userInfo:", userInfo);
+
+    if (!userInfo) {
+      console.log("No userInfo found in Redux store");
+      return false;
+    }
+
+    if (userInfo.error) {
+      console.log("Error found in userInfo:", userInfo.error);
+      return false;
+    }
+
+    // Add more detailed checks based on your user object structure
+    const hasValidId = Boolean(
+      userInfo._id || (userInfo.userInfo && userInfo.userInfo._id)
+    );
+    const hasValidEmail = Boolean(
+      userInfo.email || (userInfo.userInfo && userInfo.userInfo.email)
+    );
+
+    console.log("User validation results:", { hasValidId, hasValidEmail });
+
+    return hasValidId || hasValidEmail;
+  })();
+
+  console.log("Final auth validation result:", isValidUser);
 
   return (
     <>
